@@ -61,12 +61,12 @@ async function database_migration(array_of_package_object_full, sql_storage) {
     for (const p of array_of_package_object_full) {
       // populate packages table 
       
-      const pack_data = JSON.stringify({
-        "name": p.name,
-        "repository": p.repository,
-        "readme": p.readme,
-        "metadata": p.metadata
-      });
+      const pack_data = {
+        name: p.name,
+        repository: p.repository,
+        readme: p.readme,
+        metadata: p.metadata
+      };
       
       let command = await sql_storage`
         INSERT INTO packages 
@@ -99,7 +99,7 @@ async function database_migration(array_of_package_object_full, sql_storage) {
         const status = (ver === latest) ? "latest" : "published";
         
         let engine = pv[ver].engines;
-        let jsonEngine = JSON.stringify(engine);
+        let jsonEngine = engine;
         
         let license = pv[ver].license; // saving seperatly since it seems the meta shallow copy, 
         // deletes this value before passing to the db 
@@ -110,7 +110,7 @@ async function database_migration(array_of_package_object_full, sql_storage) {
         let meta = pv[ver];
         delete meta.engines;
         delete meta.license;
-        const jsonMeta = JSON.stringify(meta);
+        const jsonMeta = meta;
         
         // since many packages don't define an engines field we will do it for them.
         // Following suit with what Atom internal packages do.
@@ -119,7 +119,7 @@ async function database_migration(array_of_package_object_full, sql_storage) {
             "atom": "*"
           };
           
-          jsonEngine = JSON.stringify(engine);
+          jsonEngine = engine;
         }
         
         // Since seemingly a common practice is for packages to specify no license, we will account for that as well.
