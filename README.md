@@ -1,3 +1,7 @@
+### It has come to my attention that the command used to pipe output to the log files only captures stdout messages, and not stderr. Meaning the failing packages logs were not saved. This unfortunately means something will have to be created to verify the validity of all database entries. Appreciate anyone that looked into this.
+
+---
+
 This readme is brief and disorganized. My apologies.
 
 ---
